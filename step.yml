@@ -1,0 +1,50 @@
+title: "Tag generator"
+summary: create a branch and tag ;)
+description: |-
+
+website: https://github.com/...
+source_code_url: https://github.com/...
+support_url: https://github.com/.../issues
+host_os_tags:
+  - osx-10.10
+project_type_tags:
+  - ios
+type_tags:
+  - script
+is_always_run: false
+is_skippable: false
+dependencies:
+  - manager: brew
+    name: git
+run_if: ""
+inputs:
+  - RELEASE_TAG: $RELEASE_TAG
+    opts:
+      title: "major version tag"
+      summary: set the major version.
+      description: |
+        set a major version tag
+      is_expand: true
+      is_required: false
+      is_dont_change_value: true
+      value_options: []
+  - push: "true"
+    opts:
+      title: "push the tag"
+      summary: ""
+      description: |
+        push the branch
+      is_expand: false
+      is_required: true
+      is_dont_change_value: true
+      value_options: []
+outputs:
+  - BITRISE_GIT_TAG:
+    opts:
+      title: "last tag"
+      summary: the current tag.
+      description: |
+        the provided tag or the last one incremented v(V.M.m+1).
+      is_expand: false
+      is_required: true
+      is_dont_change_value: true
