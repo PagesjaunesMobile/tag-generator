@@ -3,13 +3,18 @@
 set -e
 set -x
 
+THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TAG_SED_RULES="tag.sed"
+if [ -n "$TAG_SED_RULES" ]; then
+  TAG_SED_RULES="${THIS_SCRIPT_DIR}/tag.sed"
+fi
 if [ -n "${RELEASE_TAG}"  ]; then
   BITRISE_GIT_TAG=$RELEASE_TAG
   tag_message="chore(version): new release"
   BITRISE_GIT_BRANCH="feat/create_${BITRISE_GIT_TAG}"
   
 else
- BITRISE_GIT_TAG=$(echo $(git describe --tags --abbrev=0 ) | sed -f tag.sed)
+ BITRISE_GIT_TAG=$(echo $(git describe --tags --abbrev=0 ) | sed -f $TAG_SED_RULES )
   tag_message="chore(version): bump version"
   BITRISE_GIT_BRANCH="feat/bump_${BITRISE_GIT_TAG}"
   
