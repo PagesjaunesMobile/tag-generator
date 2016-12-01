@@ -11,26 +11,26 @@ fi
 if [ -n "${RELEASE_TAG}"  ]; then
   BITRISE_GIT_TAG=$RELEASE_TAG
   tag_message="chore(version): new release"
-  BITRISE_GIT_BRANCH="feat/create_${BITRISE_GIT_TAG}"
+  BITRISE_DEST_BRANCH="feat/create_${BITRISE_GIT_TAG}"
   
 else
  BITRISE_GIT_TAG=$(echo $(git describe --tags --abbrev=0 ) | sed -f $TAG_SED_RULES )
   tag_message="chore(version): bump version"
-  BITRISE_GIT_BRANCH="feat/bump_${BITRISE_GIT_TAG}"
+  BITRISE_DEST_BRANCH="feat/bump_${BITRISE_GIT_TAG}"
   
 fi
 
 envman add --key BITRISE_GIT_TAG --value $BITRISE_GIT_TAG
-git checkout -b $BITRISE_GIT_BRANCH
+git checkout -b $BITRISE_DEST_BRANCH
 git commit --allow-empty -m "${tag_message}"
-envman add --key BITRISE_GIT_BRANCH --value $BITRISE_GIT_BRANCH
+envman add --key BITRISE_DEST_BRANCH --value $BITRISE_DEST_BRANCH
 
 git tag -a $BITRISE_GIT_TAG -m "${tag_message}"
 if [ -n "${push}" -a "${push}" == "true" -o "${push}" == "false" ]
 then
 
     if [ "${push}" == "true" ]; then
-     git push --follow-tags origin $BITRISE_GIT_BRANCH
+     git push --follow-tags origin $BITRISE_DEST_BRANCH
     fi
     if (( $? )); then
         echo "Failure" >&2
