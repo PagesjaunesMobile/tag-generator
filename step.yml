@@ -28,6 +28,16 @@ inputs:
       is_required: false
       is_dont_change_value: true
       value_options: []
+  - PROD: $PROD
+    opts:
+      title: "production build trigger"
+      summary: set for production build.
+      description: |
+        append -prod to tag.
+      is_expand: true
+      is_required: false
+      is_dont_change_value: true
+      value_options: []
   - push: "true"
     opts:
       title: "push the tag"

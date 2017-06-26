@@ -20,8 +20,7 @@ workflows:
         description: |-
         inputs:
         - push: false
-
-
+        - PROD: true
   # ----------------------------------------------------------------
   # --- workflows to Share this step into a Step Library
   share-this-step:
