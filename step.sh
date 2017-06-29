@@ -8,22 +8,24 @@ TAG_SED_RULES="tag.sed"
 if [ ! -e "$TAG_SED_RULES" ]; then
   TAG_SED_RULES="${THIS_SCRIPT_DIR}/tag.sed"
 fi
+
+if [ -n "${PROD}" ]; then
+  suffix="-prod"
+fi
+
 if [ -n "${RELEASE_TAG}"  ]; then
-  BITRISE_GIT_TAG=$RELEASE_TAG
+  BITRISE_GIT_TAG="${RELEASE_TAG}${suffix}"
   tag_message="chore(version): new release"  
 else
-  BITRISE_GIT_TAG=$(echo $(git describe --tags --abbrev=0 ) | sed -f $TAG_SED_RULES )
+  BITRISE_GIT_TAG=$(echo $(git describe --tags --abbrev=0 ) | sed -f $TAG_SED_RULES )$suffix
   tag_message="chore(version): bump version"  
 fi
 
 envman add --key BITRISE_GIT_TAG --value $BITRISE_GIT_TAG
 git commit --allow-empty -m "${tag_message}"
 
-if [ -n "${PROD}" ]; then
-  suffix="-prod"
-fi
 
-git tag -a "${BITRISE_GIT_TAG}${suffix}" -m "${tag_message}"
+git tag -a "${BITRISE_GIT_TAG}" -m "${tag_message}"
 if [ -n "${push}" -a "${push}" == "true" -o "${push}" == "false" ]
 then
 
