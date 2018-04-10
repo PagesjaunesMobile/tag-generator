@@ -20,8 +20,9 @@ else
   BITRISE_GIT_TAG=$(echo $(git describe --tags --abbrev=0 ) | sed -f $TAG_SED_RULES )$suffix
   tag_message="chore(version): bump version"  
 fi
-
+set +e
 [[ "$BITRISE_GIT_TAG" =~ "-start" ]] ; changelog_enable=$?
+set -e
 envman add --key BITRISE_GIT_TAG --value $BITRISE_GIT_TAG
 envman add --key CHANGELOG_ENABLE --value $changelog_enable
 git commit --allow-empty -m "${tag_message}"
