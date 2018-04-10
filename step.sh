@@ -21,7 +21,7 @@ else
   tag_message="chore(version): bump version"  
 fi
 
-[ "$BITRISE_GIT_TAG" =~ "-start" ]] ; changelog_enable=$?
+[[ "$BITRISE_GIT_TAG" =~ "-start" ]] ; changelog_enable=$?
 envman add --key BITRISE_GIT_TAG --value $BITRISE_GIT_TAG
 envman add --key CHANGELOG_ENABLE --value $changelog_enable
 git commit --allow-empty -m "${tag_message}"
