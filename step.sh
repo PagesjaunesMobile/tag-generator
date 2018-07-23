@@ -11,6 +11,8 @@ fi
 
 if [ -n "${PROD}" ]; then
   suffix="-prod"
+  sed -i  -f $TAG_SED_RULES VERSION
+  git add VERSION
 fi
 
 if [ -n "${RELEASE_TAG}"  ]; then
