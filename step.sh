@@ -11,8 +11,8 @@ fi
 
 if [ -n "${PROD}" ]; then
   suffix="-prod"
-  sed -i  -f build_tools/version.sed VERSION
-  git add VERSION
+  sed -i  -f build_tools/version.sed RELEASE_SPLIT_VERSION
+  git add RELEASE_SPLIT_VERSION
 fi
 
 if [ -n "${RELEASE_TAG}"  ]; then
