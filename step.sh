@@ -15,11 +15,13 @@ if [ -n "${PROD}" ]; then
   git add RELEASE_SPLIT_VERSION
 fi
 
+BITRISE_OLD_TAG=""
 if [ -n "${RELEASE_TAG}"  ]; then
   BITRISE_GIT_TAG="${RELEASE_TAG}${suffix}"
   tag_message="chore(version): new release"  
 else
-  BITRISE_GIT_TAG=$(echo $(git describe --tags --abbrev=0 ) | sed -f $TAG_SED_RULES )$suffix
+  BITRISE_OLD_TAG="$(git describe --tags --abbrev=0 )"
+  BITRISE_GIT_TAG=$(echo $BITRISE_OLD_TAG | sed -f $TAG_SED_RULES )$suffix
   tag_message="chore(version): bump version"  
 fi
 set +e
@@ -36,6 +38,7 @@ then
 
   if [ "${push}" == "true" ]; then
     git push --follow-tags origin $BITRISE_GIT_BRANCH
+    git push --delete origin $BITRISE_OLD_TAG
   fi
   if (( $? )); then
     echo "Failure" >&2
