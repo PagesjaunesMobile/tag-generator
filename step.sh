@@ -38,7 +38,6 @@ then
 
   if [ "${push}" == "true" ]; then
     git push --follow-tags origin $BITRISE_GIT_BRANCH
-    git push --delete origin $BITRISE_OLD_TAG
   fi
   if (( $? )); then
     echo "Failure" >&2
