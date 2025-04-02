@@ -21,7 +21,7 @@ if [ -n "${RELEASE_TAG}"  ]; then
   tag_message="chore(version): new release"  
 else
   BITRISE_OLD_TAG="$(git describe --tags --abbrev=0 )"
-  if [ -n "$(git tag -l ${BITRISE_OLD_TAG}${suffix})" ]; then
+  if [[ "$BITRISE_OLD_TAG" =~ "$suffix" ]] | [ -n "$(git tag -l ${BITRISE_OLD_TAG}${suffix})" ]; then
     BITRISE_GIT_TAG=$(echo $BITRISE_OLD_TAG | sed -f $TAG_SED_RULES )$suffix
     tag_message="chore(version): bump version"  
   else
